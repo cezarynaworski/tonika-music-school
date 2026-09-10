@@ -74,19 +74,27 @@
   var filterButtons = document.querySelectorAll('.filter');
   var galleryItems = document.querySelectorAll('.gallery figure');
   if (filterButtons.length && galleryItems.length) {
+    function applyFilter(filter, activeButton) {
+      filterButtons.forEach(function (button) {
+        var isActive = button === activeButton;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+      });
+      galleryItems.forEach(function (item) {
+        var show = filter === 'all' || item.getAttribute('data-category') === filter;
+        item.hidden = !show;
+      });
+    }
+
     filterButtons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var filter = btn.getAttribute('data-filter');
-        filterButtons.forEach(function (b) {
-          b.classList.toggle('is-active', b === btn);
-          b.setAttribute('aria-pressed', String(b === btn));
-        });
-        galleryItems.forEach(function (item) {
-          var show = filter === 'all' || item.getAttribute('data-category') === filter;
-          item.style.display = show ? '' : 'none';
-        });
+        applyFilter(filter, btn);
       });
     });
+
+    var initialFilter = document.querySelector('.filter[data-filter="all"]') || filterButtons[0];
+    applyFilter(initialFilter.getAttribute('data-filter'), initialFilter);
   }
 
   /* 6. FOOTER YEAR */
