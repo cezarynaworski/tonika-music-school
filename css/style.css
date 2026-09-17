@@ -111,6 +111,25 @@ p  { margin: 0 0 1em; }
 .lead { font-size: 1.2rem; color: var(--text-muted); }
 .muted { color: var(--text-muted); }
 .center { text-align: center; }
+.mission-quote {
+  position: relative;
+  margin: 2rem auto 0;
+  max-width: 720px;
+  padding: 1rem 1.25rem;
+  color: var(--violet);
+  font-family: var(--font-head);
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+  font-style: italic;
+  line-height: 1.45;
+}
+.mission-quote::before {
+  content: "";
+  position: absolute;
+  inset: .35rem auto .35rem 0;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--blue), var(--violet));
+}
 
 /* Accessibility helpers */
 .visually-hidden {
@@ -127,9 +146,9 @@ p  { margin: 0 0 1em; }
 
 /* ---------------------------------------------------------------------
    3. BACKGROUND — STARS & CLOUDS
-   The sky layer is fixed behind all content. Stars are small radial
-   gradients (no images), clouds are blurred soft ellipses.
-   Edit `.star:nth-child(n)` to reposition stars.
+   The sky layer is fixed behind all content. JavaScript places four-point
+   stars only inside the side gutters, away from the main text column.
+   Change STAR_COUNT in js/main.js to regulate their quantity.
    --------------------------------------------------------------------- */
 .sky {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -152,28 +171,38 @@ p  { margin: 0 0 1em; }
 
 .star {
   position: absolute;
-  width: 6px; height: 6px; border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, var(--lilac) 45%, rgba(190,172,212,0) 75%);
-  box-shadow: 0 0 10px 2px rgba(121,103,172,.35);
-  opacity: .8;
-  animation: twinkle 5s ease-in-out infinite;
+  width: var(--star-size, 24px);
+  height: var(--star-size, 24px);
+  color: var(--star-color, var(--violet));
+  filter: drop-shadow(0 0 5px rgba(121, 103, 172, .25));
+  opacity: .58;
+  animation: twinkle var(--star-speed, 5s) ease-in-out infinite;
+  animation-delay: var(--star-delay, 0s);
 }
-/* Star positions & timing — a "couple of stars", not a night sky */
-.star:nth-child(1) { top: 12%; left: 14%; }
-.star:nth-child(2) { top: 22%; left: 78%; width: 8px; height: 8px; animation-delay: 1.2s; }
-.star:nth-child(3) { top: 46%; left: 6%;  animation-delay: 2.4s; }
-.star:nth-child(4) { top: 58%; left: 88%; width: 5px; height: 5px; animation-delay: .6s; }
-.star:nth-child(5) { top: 82%; left: 34%; animation-delay: 3.1s; }
-.star:nth-child(6) { top: 30%; left: 50%; width: 4px; height: 4px; animation-delay: 1.8s; }
-.star:nth-child(7) { top: 90%; left: 66%; animation-delay: 4s; }
+
+.star::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  clip-path: polygon(50% 0, 58% 40%, 100% 50%, 58% 60%, 50% 100%, 42% 60%, 0 50%, 42% 40%);
+}
 
 @keyframes twinkle {
-  0%, 100% { opacity: .35; transform: scale(.85); }
-  50%      { opacity: 1;   transform: scale(1.15); }
+  0%, 100% { opacity: .32; transform: scale(.88) rotate(0deg); }
+  50%      { opacity: .78; transform: scale(1.08) rotate(4deg); }
 }
 @keyframes drift {
   from { transform: translateX(0); }
   to   { transform: translateX(6vw); }
+}
+
+@media (max-width: 1280px) {
+  .star { opacity: .42; }
+}
+
+@media (max-width: 900px) {
+  .star { display: none; }
 }
 
 
@@ -273,17 +302,42 @@ p  { margin: 0 0 1em; }
 /* ---------------------------------------------------------------------
    7. HERO
    --------------------------------------------------------------------- */
-.hero { padding-block: clamp(3rem, 8vw, 7rem) clamp(3rem, 6vw, 5rem); }
+.hero { padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(3rem, 6vw, 5rem); }
 .hero__inner { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; }
+.hero__inner > div:first-child { padding-top: 0; }
 .hero h1 { margin-bottom: 1rem; }
 .hero h1 .accent { color: var(--violet); font-style: italic; }
+.hero__motto {
+  position: relative;
+  margin: -.25rem 0 1.1rem;
+  padding-left: 1rem;
+  font-family: var(--font-head);
+  font-size: clamp(1.1rem, 1.25vw, 1.4rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--violet-deep);
+}
+.hero__motto::before {
+  content: "";
+  position: absolute;
+  top: .2em;
+  bottom: .2em;
+  left: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--blue), var(--violet));
+}
 .hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1.75rem; }
 .hero__note { margin-top: 1rem; font-size: .92rem; color: var(--text-muted); }
 
-.hero__media { position: relative; }
+.hero__media { position: relative; align-self: start; }
 .hero__media img {
   width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg);
-  aspect-ratio: 4 / 5; object-fit: cover;
+  height: auto; aspect-ratio: auto; object-fit: contain;
+}
+@media (min-width: 861px) {
+  .hero__media img { max-height: calc(100vh - var(--header-h) - 4rem); }
 }
 /* Decorative "chord" — three stacked notes, a nod to the tonic triad */
 .chord {
@@ -445,6 +499,33 @@ p  { margin: 0 0 1em; }
 .kids ul { padding-left: 1.2rem; color: var(--text-muted); }
 .kids li { margin-bottom: .4rem; }
 
+/* Additional creative and therapeutic programmes */
+.program {
+  display: block;
+  align-items: center; padding: clamp(2rem, 5vw, 4rem);
+  border-radius: calc(var(--radius) * 1.6); overflow: hidden;
+}
+.program--blue {
+  color: #fff;
+  background: linear-gradient(135deg, #5575B8 0%, #668BC7 100%);
+  box-shadow: var(--shadow-md);
+}
+.program--blue h2, .program--blue h3 { color: #fff; }
+.program--blue .eyebrow { color: var(--blue-light); }
+.program--blue .divider { background: linear-gradient(90deg, #D2E3F6, rgba(255,255,255,.35)); }
+.program--blue p { color: rgba(255,255,255,.9); }
+.program--calm {
+  background: linear-gradient(135deg, #E1EFEF 0%, #D5E2F0 100%);
+  border: 1px solid rgba(85,117,184,.2);
+  box-shadow: var(--shadow-sm);
+}
+.program--calm .program__content { max-width: none; }
+.program__media { margin-top: 2rem; }
+.program__media img {
+  width: 100%; aspect-ratio: 16 / 7; object-fit: cover;
+  border-radius: var(--radius); box-shadow: var(--shadow-md);
+}
+
 /* Pricing / details table */
 .table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
 .table th, .table td { padding: .9rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
@@ -601,8 +682,9 @@ p  { margin: 0 0 1em; }
   .nav__cta .btn { width: 100%; }
 
   .hero__inner, .grid--2, .grid--3, .kids, .contact-grid, .contact-preview { grid-template-columns: 1fr; }
+  .hero__inner > div:first-child { padding-top: 0; }
   .hero__media { order: 0; max-width: 420px; margin: 1rem auto 0; }
-  .hero__media img { aspect-ratio: 4 / 3; }
+  .hero__media img { aspect-ratio: auto; object-fit: contain; max-height: none; }
   .gallery { grid-template-columns: repeat(2, 1fr); }
   .gallery .wide { grid-column: span 2; }
   .booking-card { align-items: flex-start; flex-direction: column; }

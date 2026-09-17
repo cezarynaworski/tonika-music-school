@@ -12,6 +12,40 @@
 (function () {
   'use strict';
 
+  /*
+   * BACKGROUND STARS
+   * Adjust this number to change how many stars appear on every page.
+   */
+  var STAR_COUNT = 15;
+
+  var sky = document.querySelector('.sky');
+  if (sky) {
+    sky.querySelectorAll('.star').forEach(function (star) { star.remove(); });
+
+    var colors = ['#7967AC', '#5575B8', '#BEACD4'];
+    var seed = 9173;
+    function random() {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    }
+
+    for (var starIndex = 0; starIndex < STAR_COUNT; starIndex += 1) {
+      var star = document.createElement('span');
+      var isLeft = starIndex % 2 === 0;
+      var size = Math.round(12 + random() * 30);
+      var gutterPosition = 1 + random() * 7;
+
+      star.className = 'star';
+      star.style.top = (4 + random() * 92).toFixed(2) + '%';
+      star.style[isLeft ? 'left' : 'right'] = gutterPosition.toFixed(2) + 'vw';
+      star.style.setProperty('--star-size', size + 'px');
+      star.style.setProperty('--star-speed', (4 + random() * 5).toFixed(2) + 's');
+      star.style.setProperty('--star-delay', (-random() * 6).toFixed(2) + 's');
+      star.style.setProperty('--star-color', colors[Math.floor(random() * colors.length)]);
+      sky.appendChild(star);
+    }
+  }
+
   /* 1. STICKY HEADER — add a shadow once the page is scrolled */
   var header = document.querySelector('.site-header');
   function onScroll() {
