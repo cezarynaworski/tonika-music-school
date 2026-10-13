@@ -25,18 +25,18 @@
    #7967AC (violet), #EDF0F4 (off-white). Violet and blue dominate.
    --------------------------------------------------------------------- */
 :root {
-  --blue:        #5575B8;
-  --blue-light:  #D2E3F6;
-  --lilac:       #BEACD4;
-  --violet:      #7967AC;
-  --violet-deep: #5B4B8A;
-  --mist:        #EDF0F4;
+  --blue:        #264F8D;
+  --blue-light:  #8CA6D4;
+  --lilac:       #8F86AE;
+  --violet:      #4F4478;
+  --violet-deep: #352D53;
+  --mist:        #B9C9DF;
 
   --navy:        #171B33;   /* dark navy for career paths */
   --plum:        #241C3D;   /* dark purple for career paths */
 
-  --text:        #23263A;
-  --text-muted:  #5B6078;
+  --text:        #101827;
+  --text-muted:  #2E3B52;
   --white:       #FFFFFF;
 
   --bg:          var(--mist);
@@ -152,7 +152,7 @@ p  { margin: 0 0 1em; }
    --------------------------------------------------------------------- */
 .sky {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(180deg, #F3F5FA 0%, var(--mist) 40%, var(--blue-light) 100%);
+  background: linear-gradient(180deg, #C5D4E8 0%, #A8BEDD 28%, #7A9AC4 62%, #3D5D8F 100%);
   overflow: hidden;
 }
 
@@ -250,7 +250,7 @@ p  { margin: 0 0 1em; }
 }
 .brand { display: flex; align-items: center; gap: .7rem; color: var(--text); }
 .brand:hover { text-decoration: none; }
-.brand img { height: 44px; width: auto; }
+.brand img { height: 73.6px; width: auto; object-fit: contain; }
 .brand__name { font-family: var(--font-head); font-size: 1.45rem; letter-spacing: .02em; }
 .brand__name small { display: block; font-family: var(--font-body); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--violet); }
 
@@ -663,7 +663,7 @@ p  { margin: 0 0 1em; }
 
 @media (max-width: 860px) {
   :root { --header-h: 68px; }
-  .brand img { height: 38px; }
+  .brand img { height: 55.2px; }
 
   /* Mobile navigation: slide-down panel */
   .nav-toggle { display: block; }
