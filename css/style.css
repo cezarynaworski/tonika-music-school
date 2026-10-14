@@ -580,6 +580,7 @@ p  { margin: 0 0 1em; }
 .booking-card .eyebrow { color: var(--blue-light); margin-bottom: .45rem; }
 .booking-card h2 { color: #fff; margin-bottom: .45rem; font-size: clamp(1.45rem, 2.5vw, 2rem); }
 .booking-card p { color: rgba(255,255,255,.88); margin: 0; max-width: 34rem; }
+.booking-card p a { color: #fff; }
 .booking-card .btn { flex: none; white-space: nowrap; }
 
 /* Contact preview (home) */
